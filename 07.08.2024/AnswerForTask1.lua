@@ -68,7 +68,7 @@ local function checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, or
 
 		local diagonalColumn = originColumn + (diagonalStep * columnIncrementValue)
 		
-		if (diagonalRow == targetRow) or (diagonalColumn == targetColumn) then break end -- We only need the elements between target element and the origin element. Hence we ignore the target element, but we also need to break out of the while loop.
+		if (diagonalRow == targetRow) or (diagonalColumn == targetColumn) then break end -- We only need the elements between target element and the origin element. Hence we ignore the target element, but we also need to break out from the while loop.
 
 		if not checkIfElementHasAlreadyAdded(diagonalRow, diagonalColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return false end
 		
