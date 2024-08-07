@@ -172,7 +172,7 @@ end
 
 depthFirstSearch("", 0, {}, {}) -- There's another answer can be built without having to pass the visited row and column arrays as parameters. But for the assignment's sake, let's do the harder path.
 
-wait(1) -- These wait function are here because Roblox Studio sets a limit on how long the code can run without stopping. So if you're using pure Luau compiler, you wouldn't have this issue.
+wait(1) -- These wait function are here because Roblox Studio sets a limit on how long the code can run without stopping. If you're using pure Luau compiler, you wouldn't have this issue.
 
 local selectedPatternArray = listPatterns("A", "E", "D")
 
