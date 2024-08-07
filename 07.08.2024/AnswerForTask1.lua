@@ -64,13 +64,13 @@ local function checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, or
 		
 		diagonalStep = diagonalStep + 1
 		
-		local nextDiagonalRow = originRow + (diagonalStep * rowIncrementValue)
+		local diagonalRow = originRow + (diagonalStep * rowIncrementValue)
 
-		local nextDiagonalColumn = originColumn + (diagonalStep * columnIncrementValue)
+		local diagonalColumn = originColumn + (diagonalStep * columnIncrementValue)
 
-		if not checkIfElementHasAlreadyAdded(nextDiagonalRow, nextDiagonalColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return false end
+		if not checkIfElementHasAlreadyAdded(diagonalRow, diagonalColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return false end
 		
-	until (nextDiagonalRow == targetRow) -- We can determine the amount of diagonal step based on the gap between rows
+	until (diagonalRow == targetRow) -- We can determine the amount of diagonal step based on the gap between rows
 	
 	return true
 	
