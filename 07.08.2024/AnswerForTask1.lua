@@ -56,7 +56,7 @@ local function checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, or
 	
 	local rowIncrementValue = ((targetRow >= originRow) and 1) or -1
 	
-	local columnIncrementValue = ((targetColumn >= originColumn) and 2) or -1
+	local columnIncrementValue = ((targetColumn >= originColumn) and 1) or -1
 	
 	local diagonalStep = 0
 	
@@ -104,9 +104,7 @@ local function checkIfCanSearch(targetRow, targetColumn, visitedRowIndexArray, v
 	
 	if (absoluteShiftInRowPosition >= 2) and (absoluteShiftInColumnPosition == 0) and checkIfCanCrossElementsAlongRows(targetRow, targetColumn, originRow, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end
 	
-	local totalAbsoluteShiftInPosition = absoluteShiftInRowPosition + absoluteShiftInColumnPosition
-	
-	if (totalAbsoluteShiftInPosition % 2 == 0) and checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, originRow, originColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end -- When the two elements are blocked diagonally by the center element, and the other element is not added yet, then true.
+	if (((absoluteShiftInRowPosition + absoluteShiftInColumnPosition) % 2) == 0) and checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, originRow, originColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end -- When the two elements are blocked diagonally by the center element, and the other element is not added yet, then true.
 	
 	return isElementNotHasAlreadyAdded
 	
