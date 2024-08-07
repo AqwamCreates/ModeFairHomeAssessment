@@ -52,28 +52,6 @@ local function checkIfCanCrossElementsAlongColumns(targetRow, targetColumn, orig
 
 end
 
-local function checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, visitedRowIndexArray, visitedColumnArray, currentDepth)
-	
-	for row = 1, 3, 1 do
-		
-		for column = 1, 3, 1 do
-			
-			if (row == targetRow) or (column == targetColumn) then continue end -- Skip elements that are along the same rows or columns as these are not diagonal positions.
-			
-			local total = row + column
-			
-			if (total % 2 ~= 0) then continue end -- Skip non-diagonal positions.
-			
-			if not checkIfElementHasAlreadyAdded(row, column, visitedRowIndexArray, visitedColumnArray, currentDepth) then return false end
-			
-		end
-		
-	end
-	
-	return true
-	
-end
-
 local function checkIfCanSearch(targetRow, targetColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) -- I prefer to break large problems to smaller ones. Then answer the smaller problems with small answers. Then I build larger answers using small answers and use it to solve large problems.
 	
 	if (currentDepth == 0) then return true end
@@ -94,17 +72,17 @@ local function checkIfCanSearch(targetRow, targetColumn, visitedRowIndexArray, v
 	
 	if (absoluteShiftInRowPosition == 1) and (absoluteShiftInColumnPosition == 0) then return isElementNotHasAlreadyAdded end -- Other element in same column, but adjacent row and has not added yet, then true.
 	
-	if (absoluteShiftInRowPosition == 1) and (absoluteShiftInColumnPosition == 1) then return isElementNotHasAlreadyAdded end -- If the other element is a "proper diagonal" position and has not added yet, then true.
+	if (absoluteShiftInRowPosition == 1) and (absoluteShiftInColumnPosition == 1) then return isElementNotHasAlreadyAdded end -- If the other element is an adjacent "proper diagonal" position and has not added yet, then true.
 	
 	-- If statements when the other element is behind another value.
 	
 	if (absoluteShiftInRowPosition == 0) and (absoluteShiftInColumnPosition >= 2) and checkIfCanCrossElementsAlongColumns(targetRow, targetColumn, originColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end
 	
-	if (absoluteShiftInRowPosition >= 2) and (absoluteShiftInColumnPosition == 0) and checkIfCanCrossElementsAlongRows(targetRow, targetColumn, originRow, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end -- Other element in same column, but adjacent row and has not added yet, then true.
+	if (absoluteShiftInRowPosition >= 2) and (absoluteShiftInColumnPosition == 0) and checkIfCanCrossElementsAlongRows(targetRow, targetColumn, originRow, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end
 	
 	local totalAbsoluteShiftInPosition = absoluteShiftInRowPosition + absoluteShiftInColumnPosition
 	
-	if (totalAbsoluteShiftInPosition % 2 == 0) and checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end
+	if (totalAbsoluteShiftInPosition % 2 == 0) and checkIfElementHasAlreadyAdded(2, 2, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end -- When the two elements are blocked diagonally by the center element, and the other element is not added yet, then true.
 	
 	return isElementNotHasAlreadyAdded -- If improper diagonal and not added yet, then then true.
 	
