@@ -176,6 +176,8 @@ wait(1) -- These wait function are here because Roblox Studio sets a limit on ho
 
 local selectedPatternArray = listPatterns("A", "E", "D")
 
+wait(1)
+
 print(letterCombinationStringArray)
 
 wait(1)
