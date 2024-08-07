@@ -52,6 +52,30 @@ local function checkIfCanCrossElementsAlongColumns(targetRow, targetColumn, orig
 
 end
 
+local function checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, originRow, originColumn, visitedRowIndexArray, visitedColumnArray, currentDepth)
+	
+	local rowIncrementValue = ((targetRow >= originRow) and 1) or -1
+	
+	local columnIncrementValue = ((targetColumn >= originColumn) and 2) or -1
+	
+	local diagonalStep = 0
+	
+	repeat
+		
+		diagonalStep = diagonalStep + 1
+		
+		local nextDiagonalRow = originRow + (diagonalStep * rowIncrementValue)
+
+		local nextDiagonalColumn = originColumn + (diagonalStep * columnIncrementValue)
+
+		if not checkIfElementHasAlreadyAdded(nextDiagonalRow, nextDiagonalColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return false end
+		
+	until (nextDiagonalRow == targetRow) -- We can determine the amount of diagonal step based on the gap between rows
+	
+	return true
+	
+end
+
 local function checkIfCanSearch(targetRow, targetColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) -- I prefer to break large problems to smaller ones. Then answer the smaller problems with small answers. Then I build larger answers using small answers and use it to solve large problems.
 	
 	if (currentDepth == 0) then return true end
@@ -82,9 +106,9 @@ local function checkIfCanSearch(targetRow, targetColumn, visitedRowIndexArray, v
 	
 	local totalAbsoluteShiftInPosition = absoluteShiftInRowPosition + absoluteShiftInColumnPosition
 	
-	if (totalAbsoluteShiftInPosition % 2 == 0) and checkIfElementHasAlreadyAdded(2, 2, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end -- When the two elements are blocked diagonally by the center element, and the other element is not added yet, then true.
+	if (totalAbsoluteShiftInPosition % 2 == 0) and checkIfCanCrossElementsAlongDiagonals(targetRow, targetColumn, originRow, originColumn, visitedRowIndexArray, visitedColumnArray, currentDepth) then return isElementNotHasAlreadyAdded end -- When the two elements are blocked diagonally by the center element, and the other element is not added yet, then true.
 	
-	return isElementNotHasAlreadyAdded -- If improper diagonal and not added yet, then then true.
+	return isElementNotHasAlreadyAdded
 	
 end
 
