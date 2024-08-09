@@ -346,9 +346,9 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
                 individual_cars [cur_car_id -1 - len(self.custs)]['cost'] += weight * distance
                 if  individual_cars [cur_car_id -1 - len(self.custs)]['demand'] > self.car_types[self.cars[cur_car_id -1- len(self.custs)]['type']]['capacity']:
                     invalid = True # total demands of all the customers in this car exceed the maximum capacity, the individual is invalid hence fitness score is zero.
-                    break        
-        if not invalid:
-            fitness = (total_demand / total_cost) * 100  #Aqwam's comment: Modify the fitness function to include total_demand to satisfy as many demands as possible.
+                    break
+        if not invalid and total_cost != 0 and total_distance != 0 and total_demand != 0:
+            fitness = (100 / total_cost) * total_demand  #Aqwam's comment: Modify the fitness function to include total_demand to satisfy as many demands as possible.
             if show_log:
               print("Total distance = {0:.3f} km".format(total_distance))
               print("Total cost = RM {0:.2f}".format(total_cost))
@@ -358,7 +358,6 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
                 if individual_cars[i]['distance'] == 0:
                     continue
                 car_cnt+= 1
-                print(car_cnt)
                 print("Vehicle {0} (Type {1})".format(car_cnt, chr(j['type']+ord('A')))) #beautified counter
                 print("Round Trip Distance: {0:.3f} km, Cost: RM {1:.2f}, Demand: {2}".format(individual_cars[i]['distance'],individual_cars[i]['cost'],individual_cars[i]['demand']))
                 print("Depot -> ", end='')
@@ -455,9 +454,9 @@ for i in range(20, 60, 10):
 sample_test = {"path": f"sample_data.json", "best_ind": [], "best_score": 0, "avg_score": 0, "avg_time": 0}
 start_time = time.time()
 car_types, depot, custs = load_problem(sample_test['path'])
-num_cars = len(custs) * 2
+#num_cars = len(custs) * 2
 num_cars = 2
-cars = [{"id": len(custs) + i + 1, "type": i // int(num_cars / 2)} for i in range(num_cars)]
+#cars = [{"id": len(custs) + i + 1, "type": i // int(num_cars / 2)} for i in range(num_cars)]
 cars = [{"id": 1, "type": 0}, {"id": 2, "type": 1}]
 POP_SIZE = 1000 #10
 SELECTION_SIZE = 20 #4
