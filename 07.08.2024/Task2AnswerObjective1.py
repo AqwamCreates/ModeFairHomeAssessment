@@ -484,6 +484,5 @@ sample_test['avg_time'] /= 5
 
 print(sample_test)
 
-
 print("Final Result: ")
 fitness_score = ga.calc_fitness(sample_test['best_ind'], show_log=True)

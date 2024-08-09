@@ -346,8 +346,7 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
                 individual_cars [cur_car_id -1 - len(self.custs)]['cost'] += weight * distance
                 if  individual_cars [cur_car_id -1 - len(self.custs)]['demand'] > self.car_types[self.cars[cur_car_id -1- len(self.custs)]['type']]['capacity']:
                     invalid = True # total demands of all the customers in this car exceed the maximum capacity, the individual is invalid hence fitness score is zero.
-                    break
-                
+                    break        
         if not invalid:
             fitness = (total_demand / total_cost) * 100  #Aqwam's comment: Modify the fitness function to include total_demand to satisfy as many demands as possible.
             if show_log:
@@ -456,9 +455,9 @@ for i in range(20, 60, 10):
 sample_test = {"path": f"sample_data.json", "best_ind": [], "best_score": 0, "avg_score": 0, "avg_time": 0}
 start_time = time.time()
 car_types, depot, custs = load_problem(sample_test['path'])
-#num_cars = len(custs) * 2
+num_cars = len(custs) * 2
 num_cars = 2
-#cars = [{"id": len(custs) + i + 1, "type": i // int(num_cars / 2)} for i in range(num_cars)]
+cars = [{"id": len(custs) + i + 1, "type": i // int(num_cars / 2)} for i in range(num_cars)]
 cars = [{"id": 1, "type": 0}, {"id": 2, "type": 1}]
 POP_SIZE = 1000 #10
 SELECTION_SIZE = 20 #4
@@ -487,7 +486,6 @@ sample_test['avg_score'] /= 5
 sample_test['avg_time'] /= 5
 
 print(sample_test)
-
 
 print("Final Result: ")
 fitness_score = ga.calc_fitness(sample_test['best_ind'], show_log=True)
