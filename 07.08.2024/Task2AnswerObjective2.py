@@ -315,7 +315,7 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
             If true, details of the individual will be printed.
         """
         invalid = False
-        total_cost, total_distance = 0, 0
+        total_cost, total_distance, total_demand = 0, 0, 0
         assigned_cars = [-1 for _ in range(len(individual))] # 1 index
         cur_car_id = -1
         individual_cars = [{"cost": 0, "distance": 0, "demand": 0} for _ in self.cars]
@@ -330,7 +330,7 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
                 distance = self.dist_matrix[individual[i-1] - 1, individual[i] - 1]
                 assigned_cars[i] = cur_car_id
                 total_cost += weight * distance
-                total_distance += distance
+                total_distance += distance 
                 individual_cars [cur_car_id -1 - len(self.custs)]['distance'] += distance
                 individual_cars [cur_car_id -1 - len(self.custs)]['cost'] += weight * distance
             else: # For customer points
@@ -340,6 +340,7 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
                 assigned_cars[i] = cur_car_id
                 total_cost += weight * distance
                 total_distance += distance
+                total_demand += self.custs[j -1]['demand']
                 individual_cars [cur_car_id -1 - len(self.custs)]['demand'] += self.custs[j -1]['demand']
                 individual_cars [cur_car_id -1 - len(self.custs)]['distance'] += distance
                 individual_cars [cur_car_id -1 - len(self.custs)]['cost'] += weight * distance
@@ -348,7 +349,7 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
                     break
                 
         if not invalid:
-            fitness = 100/ total_cost
+            fitness = (total_demand / total_cost) * 100  #Aqwam's comment: Modify the fitness function to include total_demand to satisfy as many demands as possible.
             if show_log:
               print("Total distance = {0:.3f} km".format(total_distance))
               print("Total cost = RM {0:.2f}".format(total_cost))
@@ -455,7 +456,9 @@ sample_test = {"path": f"sample_data.json", "best_ind": [], "best_score": 0, "av
 start_time = time.time()
 car_types, depot, custs = load_problem(sample_test['path'])
 num_cars = len(custs) * 2
+#num_cars = 2
 cars = [{"id": len(custs) + i + 1, "type": i // int(num_cars / 2)} for i in range(num_cars)]
+#cars = [{"id": 1, "type": 0}, {"id": 2, "type": 1}]
 POP_SIZE = 1000 #10
 SELECTION_SIZE = 20 #4
 ELITE_SIZE = 10 #5
