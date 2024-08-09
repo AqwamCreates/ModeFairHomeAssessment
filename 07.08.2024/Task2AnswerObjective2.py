@@ -347,7 +347,7 @@ class MVPGeneticAlgorithm(GeneticAlgorithm):
                 if  individual_cars [cur_car_id -1 - len(self.custs)]['demand'] > self.car_types[self.cars[cur_car_id -1- len(self.custs)]['type']]['capacity']:
                     invalid = True # total demands of all the customers in this car exceed the maximum capacity, the individual is invalid hence fitness score is zero.
                     break
-        if not invalid and total_cost != 0 and total_distance != 0 and total_demand != 0:
+        if not invalid:
             fitness = (100 / total_cost) * total_demand  #Aqwam's comment: Modify the fitness function to include total_demand to satisfy as many demands as possible.
             if show_log:
               print("Total distance = {0:.3f} km".format(total_distance))
